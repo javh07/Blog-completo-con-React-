@@ -1,5 +1,7 @@
 import React from 'react'
 
+//Formulario
+
 export const useForm = (objetoInicial = {} ) => {
 
     const [formulario, setFormulario] = useState(objetoInicial);
