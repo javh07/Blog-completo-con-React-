@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { Inicio } from './components/layout/pages/inicio.jsx'
-import { Articulos } from './components/layout/pages/Articulos.jsx'
-import { Crear } from './components/layout/pages/Crear.jsx'
+import { Inicio } from './components/layout/pages/Inicio'
+import { Articulos } from './components/layout/pages/Articulos'
+import { Crear } from './components/layout/pages/Crear'
+import { Rutas } from './routing/Rutas'
 
 
 
@@ -10,12 +11,10 @@ function App() {
 
   return (
     
-      <div className="App">
-        <h1>Blog con React</h1>
+      <div className="layout">
+        
 
-        <Inicio></Inicio>
-        <Articulos/>
-        <Crear/>
+        <Rutas />
 
         
     </div>
