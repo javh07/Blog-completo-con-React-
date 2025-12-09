@@ -8,7 +8,7 @@ export const peticion = async (url, metodo, datosGuardar = "") => {
 
 
 
-  // Small artificial delay to show the "Cargando..." state while fetching
+  
   try {
     await new Promise(resolve => setTimeout(resolve, 1200)); 
     //Hasta que la promesa no se resuelva, pausa la ejecucion 1.2 segundos
@@ -38,22 +38,21 @@ export const peticion = async (url, metodo, datosGuardar = "") => {
 
     }
 
-    const peticion = await fetch(url, opciones); //hace una peticion al servidor y asigna ese valor a la variable peticion
-    const datos = await peticion.json(); //Asignar el valor que regrese la peticion ajax
-
+    const respuesta = await fetch(url, opciones);
+    const datos = await respuesta.json();
     
     cargando = false;
-
-  } catch (err) {
-    console.error('Error fetching user:', err);
-    (prev => ({ ...prev, datos: null, cargando: false }));
-
-
-
 
     return {
       datos,
       cargando
+    }
+
+  } catch (err) {
+    console.error('Error fetching:', err);
+    return {
+      datos: null,
+      cargando: false
     }
 
 
