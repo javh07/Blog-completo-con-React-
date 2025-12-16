@@ -2,45 +2,49 @@
 
 export const peticion = async (url, metodo, datosGuardar = "") => {
 
-  
-  let cargando = true; //una variable booleana para saber si esta cargando o no
+  let cargando = true;
+
+  // Configuración de la petición (metodo GET por defecto si no es POST/PUT)
+  let opciones = {
+    method: "GET"
+  }
+
+  if (metodo === "GET" || metodo === "DELETE") {
+    opciones = {
+      method: metodo,
+    }
+  }
+
+  if (metodo === "POST" || metodo === "PUT") {
+    opciones = {
+      method: metodo,
+      body: JSON.stringify(datosGuardar),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+  }
 
 
-
-
-  
   try {
-    await new Promise(resolve => setTimeout(resolve, 1200)); 
-    //Hasta que la promesa no se resuelva, pausa la ejecucion 1.2 segundos
-
-
-
-    let opciones = { //opcion premeditada
-      method: "GET"
-
-    }
-
-    if (metodo == "GET" || metodo == "DELETE") {
-      opciones = {
-        method: metodo,
-      }
-    }
-
-
-    if (metodo == "POST" || metodo == "PUT") { //Datos cuando llega una peticion con post o put
-      opciones = {
-        method: metodo,
-        body: JSON.stringify(datosGuardar), //pasar como parametro para convertir a JSON
-        headers: {
-          "Content-Type": "application/json" //Formato que recibe el api
-        }
-      }
-
-    }
+    // Pausa la ejecución para simular latencia (opcional, pero mantenida)
+    await new Promise(resolve => setTimeout(resolve, 1200));
 
     const respuesta = await fetch(url, opciones);
+
+    // --- CAMBIO CLAVE 1: VERIFICAR LA RESPUESTA HTTP ---
+    // Si la respuesta no es 2xx (ej. 404 o 500), lanzamos un error
+    if (!respuesta.ok) {
+      // Obtenemos el texto del error si no es un JSON válido
+      const errorText = await respuesta.text();
+
+      // Creamos un error más informativo, incluyendo el status de la API
+      throw new Error(`Error HTTP: ${respuesta.status} - ${errorText}`);
+    }
+
+    // El servidor respondió OK. Intentamos parsear el JSON
     const datos = await respuesta.json();
-    
+
     cargando = false;
 
     return {
@@ -49,13 +53,17 @@ export const peticion = async (url, metodo, datosGuardar = "") => {
     }
 
   } catch (err) {
-    console.error('Error fetching:', err);
+    // --- CAMBIO CLAVE 2: DEVOLVER SIEMPRE LA ESTRUCTURA ESPERADA ---
+    // Aquí caemos por error de red o error HTTP que lanzamos arriba.
+    console.error('Error en peticion:', err);
+
     return {
-      datos: null,
+      // Devolvemos una estructura que el componente Listado pueda leer
+      datos: {
+        status: "error", // Indicamos explícitamente el estado de error
+        mensaje: err.message || "Error de conexión o del servidor"
+      },
       cargando: false
     }
-
-
-
   }
 }

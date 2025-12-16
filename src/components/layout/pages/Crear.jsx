@@ -25,6 +25,10 @@ export const Crear = () => {
 
         if (datos.status === "success") {
             setResultado("guardado");
+
+        //Subir imagen
+
+
         } else {
             setResultado("error");
         }
@@ -61,12 +65,13 @@ export const Crear = () => {
                     <textarea name="contenido" onChange={cambiado} /> {/* 'cambiado' mantiene actualizado el estado 'formulario' */}
                 </div>
                  
-                 {/*
+                 
                 <div className='form-group'>
                     <label htmlFor='imagen'>Imagen</label>
+                    <input type="file" name="file" id="file" />
                     
                 </div> 
-                */}
+                
 
                 <input type="submit" value="Guardar" className="btn btn-success"/>
 
