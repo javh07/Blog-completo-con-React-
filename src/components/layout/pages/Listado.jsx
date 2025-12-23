@@ -1,6 +1,7 @@
 import React from 'react'
 import { Global } from '../../../helpers/Global';
 import { peticion } from '../../../helpers/peticion';
+import { Link } from 'react-router-dom';
 
 export const Listado = ({articulos, setArticulos}) => {
 
@@ -33,12 +34,14 @@ export const Listado = ({articulos, setArticulos}) => {
       return (
         <article key={articulo._id} className="articulo-item">
           <div className='mascara'>
-            <img src="https://cdn.sanity.io/images/3do82whm/next/a69e3ba2441d35dd1a7945e826064708f30c10a9-1000x667.jpg?w=1000&h=667&fit=clip&auto=format" alt={articulo.titulo} />
+            {articulo.imagen != "default.png" && <img src={Global.url + "imagen/" + articulo.imagen}/>}
+            {!articulo.imagen == "default.png" && <img src="https://cdn.sanity.io/images/3do82whm/next/a69e3ba2441d35dd1a7945e826064708f30c10a9-1000x667.jpg?w=1000&h=667&fit=clip&auto=format" alt={articulo.titulo} />}
           </div>
           <div className='datos'>
-            <h3 className="title">{articulo.titulo}</h3>
+            <h3 className="title"><Link to={"/articulo/" + articulo._id}>{articulo.titulo}</Link></h3>
             <p className="description">{articulo.contenido}</p>
-            <button className="edit">Editar</button>
+
+            <Link to={"/editar/" + articulo._id} className="edit">Editar</Link>
             <button 
               className="delete" 
               onClick={() => { eliminar(articulo._id) }}

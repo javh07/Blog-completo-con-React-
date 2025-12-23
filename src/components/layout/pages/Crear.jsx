@@ -21,13 +21,25 @@ export const Crear = () => {
 
         // 3. Guardar el articulo en el backend
         // Nota: Asegúrate que tu helper 'peticion' y 'Global.url' estén bien configurados
-        const { datos, cargando } = await peticion(Global.url + "crear", "POST", nuevoArticulo);
+        const { datos } = await peticion(Global.url + "crear", "POST", nuevoArticulo);
 
         if (datos.status === "success") {
             setResultado("guardado");
 
         //Subir imagen
+        const fileInput = document.querySelector("#file");
 
+        const formData = new FormData();
+        formData.append("file0", fileInput.files[0]);
+
+        const subida = await peticion(Global.url + "subir-imagen/" + datos.articulo._id, "POST", formData, true);
+
+        if(subida.status === "succes"){
+            setResultado("guardado");
+
+        }else{
+            setResultado("error");
+        }
 
         } else {
             setResultado("error");
@@ -67,8 +79,8 @@ export const Crear = () => {
                  
                  
                 <div className='form-group'>
-                    <label htmlFor='imagen'>Imagen</label>
-                    <input type="file" name="file" id="file" />
+                    <label htmlFor='file0'>Imagen</label>
+                    <input type="file" name="file0" id="file" />
                     
                 </div> 
                 
