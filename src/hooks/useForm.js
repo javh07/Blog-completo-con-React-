@@ -5,7 +5,7 @@ export const useForm = (objetoInicial = {} ) => {
     const [formulario, setFormulario] = useState(objetoInicial);
     
     // Función de serialización (extraída para ser reutilizada)
-    const serializarFormulario = (elemento) => {
+    const serializarFormulario = (elemento) => { //el nodo del DOM del formulario   
     
         const formData = new FormData(elemento);
     

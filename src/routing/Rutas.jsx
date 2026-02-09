@@ -9,6 +9,9 @@ import { Footer } from "../components/layout/Footer";
 import { Crear } from "../components/layout/pages/Crear";
 import { Articulo } from "../components/layout/pages/Articulo";
 import { Editar } from "../components/layout/pages/Editar";
+import { Busqueda } from "../components/layout/Busqueda";
+
+
 
 export const Rutas = () => {
     return (
@@ -26,6 +29,7 @@ export const Rutas = () => {
                 <Route path="/crear-articulos" element={<Crear />} />
                 <Route path="/articulo/:id" element={<Articulo/>} />
                 <Route path="/editar/:id" element={<Editar/>} />
+                <Route path="/buscar/:busqueda" element={<Busqueda/>} />
 
 
 

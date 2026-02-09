@@ -1,6 +1,6 @@
 
 
 export const Global = {
-    url: "http://localhost:3900/api/"
+    url: "https://blog-1sva.onrender.com/api/"
 };
   
